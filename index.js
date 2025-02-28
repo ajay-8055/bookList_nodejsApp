@@ -18,6 +18,6 @@ app.get("/test", (req, res) => res.send("Hello World"));
 app.use("/api", routes);
 
 // Start the server
-app.listen(process.env.PORT || 3000, () => {
+app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
