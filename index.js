@@ -1,23 +1,27 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-
 const mongoInstance = require("./config/mongodb");
 const routes = require("./routes");
+const passport = require("passport");
 
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Initialize MongoDB instance
-mongoInstance();
-console.log("connected");
+// Initialize Passport
+require("./config/passport")(passport);
+app.use(passport.initialize());
 
-// Use the routes
-app.get("/test", (req, res) => res.send("Hello World"));
+// MongoDB Connection
+mongoInstance();
+
+// Routes
+app.get("/test", (req, res) => {
+  res.send("DevOps is cool");
+});
 app.use("/api", routes);
 
 // Start the server
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
